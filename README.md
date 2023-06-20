@@ -12,7 +12,7 @@
 - Python 3.9.6 (default, May  7 2023, 23:32:44)
 - Flask 2.3.2
 - Werkzeug 2.3.6
-- mariadb  Ver 15.1 Distrib 10.11.2-MariaDB
+- mariadb  Ver 15.1 Distrib 10.11.2-MariaDB  (pip install flask-mysql)
 
 ------------------------------------------------------------  
 #### 현재 진행 단계
