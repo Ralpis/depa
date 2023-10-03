@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask 서버로 데이터 요청 예시</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{url_for('static',filename='js/getData.js')}}"></script>
+    <script src="{{url_for('static',filename='js/postData.js')}}"></script>
+    <script src="{{url_for('static',filename='js/deleteData.js')}}"></script>
+  </head>
+
+  <style>
+    .result-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 100px;
+      width: 1000px;
+      overflow: auto;
+    }
+  </style>
+
+  <body>
+    <h1>Flask 서버로 데이터 요청</h1>
+    <div>
+      <button onclick="saseoRecmd()">사서 추천 도서 조회 API</button>
+    </div>
+
+    <div>
+      <button onclick="bookInfo()">도서 정보 조회 API</button>
+      <div id="data-container1"></div>
+    </div>
+
+    <div>
+      <button onclick="bookReplyPost()">도서 댓글 등록</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <button onclick="bookReplySelect()">도서 댓글 조회 API</button>
+      <div id="data-container2"></div>
+    </div>
+
+    <div>
+      <button onclick="studyReplyDelete()">도서 댓글 삭제 API</button>
+      <div id="data-container2"></div>
+    </div>
+
+    <div>
+      <button onclick="studyInfoPost()">도서정보 등록 API 미완성</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <button onclick="studyInfoPost()">스터디 정보 등록</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <button onclick="studyInfoSelect()">스터디 정보 조회</button>
+      <div id="data-container3"></div>
+    </div>
+
+    <div>
+      <button onclick="studyReplyPost()">스터디 댓글 등록</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <button onclick="studyReplySelect()">스터디 댓글 조회</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <button onclick="studyLikePost()">스터디 좋아요 등록</button>
+      <div id="data-container4"></div>
+    </div>
+
+    <div>
+      <h1>결과 값</h1>
+      <div id="data-container" class="result-box"></div>
+    </div>
+  </body>
+</html>

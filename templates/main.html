@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.bottom_menu { position: fixed; bottom: 0px; left: 0px; width: 100%; height: 50px; z-index:100; border-top: 1px solid black; background-color: white }
+		.bottom_menu > div { float: left; width: 33.33%; height: 100%; text-align: center; padding-top: 13px; }
+		.horizon_table {overflow-x: scroll; overflow-y: hidden; white-space: nowrap; padding-left: 20px; padding-right: 50px; &::-webkit-scrollbar {display: none;} .hcard { display: inline-block; }}
+		.gnb {flex: none; justify-content: center; display: block;}
+		.bottom {height: 100px; background-color: #fff; flex: 1;}
+		.about-gnb-wrapper {z-index: 100; width: 500px; max-width: 100%; background-color: #fff; padding-bottom: 0; display: block; position: fixed; top: auto; bottom: 0%; left: auto; right: auto;}
+		.gnb-icon-wrapper {grid-row-gap: 0px; flex-direction: row; flex: 1; justify-content: space-around; align-self: center; align-items: center; padding-left: 0; padding-right: 0; display: flex;}
+		.link-block-5, .link-block-6, .link-block-7 {text-decoration: none;}
+		.w-inline-block {max-width: 100%; display: inline-block;}
+		a {background-color: rgba(0, 0, 0, 0);}
+		.gnb-icon {grid-column-gap: 0px; grid-row-gap: 4px; flex-direction: column; flex: 0 auto; grid-template-rows: auto auto; grid-template-columns: 1fr 1fr; grid-auto-columns: 1fr; justify-content: flex-start; align-self: center; align-items: center; text-decoration: none; display: flex;}
+		.image-wrapper-1-1.gnb {width: 24px; height: auto; flex: 0 auto; align-self: auto; padding-top: 100%; display: block;}
+		.image-wrapper-1-1 {width: auto; padding-top: 100%; position: relative;}
+		.wrapper-iner-image-2 {width: auto; height: auto; max-width: none; object-fit: contain; border-radius: 10px; display: block; position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: visible;}
+	</style>
+    <title>가치읽기 MainPage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  </head>
+  <body style="height: 100%; background-color: #f0f2f3; flex-direction: column; align-items: center; font-family: Pretendardvariable, sans-serif; display: flex;">
+	<!--화면 영역-->
+	<div style="width: 500px; height: auto; max-width: 100%; min-height: 400px; background-color: #ffffff; flex-direction: column; flex: 0 auto; align-items: center; display: block;">
+		<!--상단 바-->
+		<div style="display: block; box-sizing: border-box;">
+			<div style="z-index: 5; width: 500px; max-width: 100%; background-color: rgba(0, 0, 0, 0); border: 0 #000; flex-direction: column; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 15px; display: flex; background: #ffffff; position: relative;">
+				<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; align-items: stretch; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; display: block;">
+					<div style="flex: 1; justify-content: center; align-self: center; align-items: center; display: flex; position: relative;">
+						<a href="/" class="navbar-brand-8 text-center w-nav-brand w--current">
+							<img src="https://github.com/gijeogiya/depa/blob/main/imgs/ValueReadLogo.png?raw=true" alt="Logo" height="24">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--컨텐츠 영역1-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; border-radius: 12px; padding: 16px 0; display: block;">
+			<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<img src="http://placehold.it/600x500" width="100%"/>
+			</div>
+		</section>
+		<!--컨텐츠 영역1 끝-->
+		<!--컨텐츠 영역2-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; border-radius: 12px; padding: 16px 0; display: block;">
+			<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<img src="http://placehold.it/320x500" width="100%"/>
+			</div>
+		</section>
+		<!--컨텐츠 영역2 끝-->
+		<!--하단 고정 메뉴 바-->
+		<div class="about-gnb-wrapper">
+			<div class="gnb-wrapper">
+				<div class="gnb-icon-wrapper">
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="https://assets.website-files.com/648051796314396f630e5ead/6493b213ab10c9095a90b74a_home_b.svg" class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">홈</div>
+						</div>
+					</a>
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="https://assets.website-files.com/648051796314396f630e5ead/64a2d0f9cd074ceda274be83_compass_24.svg" class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">탐색</div>
+						</div>
+					</a>
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="https://assets.website-files.com/648051796314396f630e5ead/64840d7f35c44b22441c7251_user.svg" class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">마이</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--하단 고정 메뉴 바 끝-->
+	</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  </body>
+</html>

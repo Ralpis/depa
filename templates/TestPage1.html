@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>가치읽기 TestPage(3/3)</title>
+	<link rel="stylesheet" href="{{url_for('static',filename='ValueReadCSS.css')}}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-YEHLWMMWX6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-YEHLWMMWX6');
+	</script>
+</head>
+<script>
+	function passPage(param) {
+		const urlParams = new URL(location.href).searchParams;
+		var sel = urlParams.get('sel');
+		var page = Number(urlParams.get('page')) + 1;
+		if (sel === null) {
+			sel = "";
+		}
+		if (page === 1) {
+			page = page + 1;
+		}
+		var url;
+		if (page === 4) {
+			url = "/ResultPage?sel=" + sel + param;
+		} else {
+			url = "/TestPage?page=" + page + "&sel=" + sel + "" + param;
+		}
+		location.href = url;
+	}
+</script>
+
+<body
+	style="height: 100%; background-color: #f0f2f3; flex-direction: column; align-items: center; font-family: Pretendardvariable, sans-serif; display: flex;">
+	<!--화면 영역-->
+	<div
+		style="width: 500px; height: auto; max-width: 100%; min-height: 400px; background-color: #ffffff; flex-direction: column; flex: 0 auto; align-items: center; display: block;">
+		<!--상단 바-->
+		<div style="display: block; box-sizing: border-box;">
+			<div
+				style="z-index: 5; width: 500px; max-width: 100%; background-color: rgba(0, 0, 0, 0); border: 0 #000; flex-direction: column; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 15px; display: flex; background: #ffffff; position: relative;">
+				<div
+					style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; align-items: stretch; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; display: block;">
+					<div
+						style="flex: 1; justify-content: center; align-self: center; align-items: center; display: flex; position: relative;">
+						<a href="/" class="navbar-brand-8 text-center w-nav-brand w--current">
+							<img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="30">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--상단 바 끝-->
+		<div class="lb-wrap">
+			<div class="lb-text1">
+				<a onclick="passPage(1)" class="lb-button" style="padding:5px 12px;">IT</a>
+			</div>
+			<div class="lb-text2">
+				<div><a onclick="passPage(2)" class="lb-button" style="padding:5px 12px;">재테크</a></div>
+			</div>
+			<div class="lb-text3">
+				<div><a onclick="passPage(3)" class="lb-button" style="padding:5px 12px;">기술 및 취업</a></div>
+			</div>
+			<div class="lb-text4">
+				<div><a onclick="passPage(4)" class="lb-button" style="padding:5px 12px;">기타</a></div>
+			</div>
+
+			<div class="lb-image"><img sizes="(max-width: 767px) 100vw, 500px"
+					src="{{ url_for('static', filename='q01.png') }}" alt="" class="image-50"></div>
+		</div>
+		<!--가치읽기 테스트 진행 영역 끝-->
+		<!--하단 푸터 영역-->
+		<section
+			style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0 64px 0; display: block;">
+			<div
+				style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<div style="height: 60px"></div>
+			</div>
+		</section>
+		<!--하단 푸터 영역-->
+		<!--하단 고정 메뉴 바-->
+		<div class="about-gnb-wrapper">
+			<div class="gnb-wrapper">
+				<div class="gnb-icon-wrapper">
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/home.svg')}}" class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">홈</div>
+						</div>
+					</a>
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/study.svg')}}" class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">검색</div>
+						</div>
+					</a>
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/detail.svg')}}"
+									class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">!</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--하단 고정 메뉴 바 끝-->
+		</img>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+			crossorigin="anonymous"></script>
+</body>
+
+</html>

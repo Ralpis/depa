@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Swiper demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="{{url_for('static',filename='swiper-bundle.min.css')}}" />
+  <link rel="stylesheet" href="{{url_for('static',filename='ValueReadCSS.css')}}" />
+  <link rel="stylesheet" href="{{url_for('static',filename='test.css')}}" />
+
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="{{url_for('static',filename='js/swiper-bundle.min.js')}}"></script>
+</head>
+
+<body>
+
+  <div id="popup_layer">
+    <div class="popup_box">
+      <!--팝업 컨텐츠 영역-->
+      <div class="popup_cont">
+        <h5>[신규 기능이 추가되었어요!]</h5>
+        <p>
+          <img src="static/logo_s.png"></img>
+        </p>
+      </div>
+      <!--팝업 버튼 영역-->
+      <div class="popup_btn">
+        <!--하루동안 보지않기-->
+        <a id="chk_today" href="javascript:closeToday();" class="close_day">하루동안 안보기</a>
+        <!--7일간 보지않기-->
+        <!-- <a id="chk_today" href="javascript:closeToday();" class="close_day">Do not open for 7 days</a>-->
+        <a href="javascript:closePop();">닫기</a>
+      </div>
+    </div>
+  </div>
+
+  <div className="box">
+    <div className="view-wrapper">
+      <div className="view">
+        <div className="element">
+          <div className="overlap-group">
+            <div className="text-wrapper">IT 분야</div>
+            <div className="div">IT 잡학사전</div>
+            <div className="rectangle" ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Swiper -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper" id="study">
+    </div>
+  </div>
+  <div class="swiper mySwiper">
+  </div>
+  <!-- Swiper JS -->
+
+
+
+  <script>
+    var kdcName = "";
+    const urlParams = new URL(location.href).searchParams;
+    var sel = urlParams.get('sel');
+    window.onload = function () {
+
+
+      //1. 스터디정보조회 API 호출
+      $.ajax({
+        url: "https://가치읽기.site/v1/study?sort=views",
+        type: "GET",
+        dataType: "json",
+        data: { "kdcName": kdcName },
+        success: function (response) {
+          var arrCov = $.extend(true, [], response); //json->배열로 변환
+          for (var i = 0; i < arrCov["totalCount"]; i++) {
+            console.log("hi");
+            html =
+              "<div class=\"swiper-slide\" style=\"\" >"
+              + "<div onclick=\"location.href='" + "https://가치읽기.site/studydetail?" + "studyRegNo=" + arrCov["result"][i]["studyRegNo"] + "&kdcName=" + arrCov["result"][i]["isbnList"][0]["kdcName"] + "&studyNm=" + arrCov["result"][i]["studyNm"] + "';\" >"
+              + "<img style=\"width: 130px; height: 180px; float:left;\" src=" + (arrCov["result"][i]["isbnList"][0]?.["coverUrl"].includes("https://cover.nl.go.kr") ? arrCov["result"][i]["isbnList"][0]?.["coverUrl"] : (arrCov["result"][i]["isbnList"][0]?.["coverUrl"]) == '' ? "https://nl.go.kr/resource/search/img/search/noimage/noimage_NL1.gif" : "https://cover.nl.go.kr/" + arrCov["result"][i]["isbnList"][0]?.["coverUrl"]) + ">"
+              + "</img>"
+              + "</div>"
+
+              + "<div class=\"text-block-15\">" + arrCov["result"][i]["studyNm"] + "</div>"
+
+
+              + "<div class=\"card-description-title body-16px\">"
+              + "<div class=\"div-block-73\">"
+              + "<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">" + arrCov["result"][i]["isbnList"][0]?.["author"] + "</div>"
+              + "<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">" + arrCov["result"][i]["isbnList"][0]?.["bookTitle"] + "</div>"
+              + "</div>"
+
+
+              + "</div>"
+              + "</div>";
+            $("#study").append(html);
+          }
+          var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3.2,
+            freeMode: true,
+            spaceBetween: 15,
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+          });
+        },
+        error: function (error) {
+          console.log("통신 실패");
+        },
+      });
+
+    }
+    function setCookie(name, value, expiredays) {  // 쿠키저장
+      var todayDate = new Date();  //date객체 생성 후 변수에 저장
+      todayDate.setDate(todayDate.getDate() + expiredays);
+      // 시간지정(현재시간 + 지정시간)
+      document.cookie = name + "=" + value + "; path=/; expires=" + todayDate.toUTCString() + ";"
+      //위 정보를 쿠키에 굽는다
+    }
+ 
+
+    $(function () {
+      $(".popup_box").draggable({ containment: 'parent', scroll: false }); // 레이어 팝업 창 드래그 가능
+      //{containment:'parent', scroll:false} 화면 영역 밖으로 드래그 안됌.
+
+      if (document.cookie.indexOf("popToday=close") < 0) {      // 쿠키 저장여부 체크
+        document.getElementById("popup_layer").style.display = "block";
+      } else {
+        document.getElementById("popup_layer").style.display = "none";
+      }
+    });
+
+
+    //오늘하루만보기 닫기버튼 스크립트
+    function closeToday() {
+      setCookie("popToday", "close", 1);
+      $("#popup_layer").css("display", "none");
+      document.getElementById("popup_layer").style.display = "none";
+    }
+    //그냥 닫기버튼 스크립트
+    function closePop() {
+      document.getElementById("popup_layer").style.display = "none";
+    }
+  </script>
+  <!-- Initialize Swiper -->
+
+</body>
+
+</html>

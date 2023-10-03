@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>가치읽기 BookDetailPage</title>
+	<link rel="stylesheet" href="{{url_for('static',filename='ValueReadCSS.css')}}">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-YEHLWMMWX6"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'G-YEHLWMMWX6');
+	</script>
+</head>
+
+<body
+	style="height: 100%; background-color: #f0f2f3; flex-direction: column; align-items: center; font-family: Pretendardvariable, sans-serif; display: flex;">
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script>
+		const urlParams = new URL(location.href).searchParams;
+		var isbn = urlParams.get('isbn');
+		var kdcName = urlParams.get('kdcName');
+		var titleInfo = urlParams.get('titleInfo');
+		var coverUrl = "";
+		var author = "";
+
+
+		window.onload = function () {
+
+			var kwd2;
+			var kwd3;
+
+			if (isbn != "") {
+				kwd2 = isbn;
+				kwd3 = "isbn";
+
+			} else {
+				kwd2 = titleInfo;
+				kwd3 = "titleInfo";
+			}
+
+			$.ajax({
+				url: "https://가치읽기.site/v1/book",
+				type: "GET",
+				dataType: "json",
+				data: { "kwd": kwd2, "srchTarget": kwd3, "pageNum": 1, "pageSize": 1 },
+				success: function (response) {
+					var arrCov = $.extend(true, [], response); // json->배열로 변환
+					// ISBN 값이 존재하는 경우
+					html = "<img style=\"width: 100%; height: 40vh; object-fit: contain; margin-bottom:10px; background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src=" + (arrCov.result[0]['imageUrl'].includes("https://cover.nl.go.kr") ? arrCov.result[0]['imageUrl'] : (arrCov.result[0]['imageUrl'] == '' ? "/static/logo.png" : "https://cover.nl.go.kr/" + arrCov.result[0]['imageUrl'])) + ">";
+					$("#cover").append(html);
+					html = "<div class=\"text-color-gray70-2 body-14px\">현재 " + arrCov.result[0]['studyList'].length + "개의 스터디가 진행 중입니다.</div>";
+					$("#studyCount").append(html);
+					html = "<div class=\"course-detali text-block-30 text-color-gray80\">" + arrCov.result[0]['kdcName'] + "</div>";
+					$("#category").append(html);
+					html = "<div class=\"course-detali text-block-30 text-color-gray80\">" + arrCov.result[0]['isbn'] + "</div>";
+					$("#isbnNo").append(html);
+					html = "<h1 class=\"course-title title-20px course\">" + arrCov.result[0]['authorInfo'] + "</h1> <h1 class=\"course-title title-20px\">" + arrCov.result[0]['titleInfo'].replace(/<[^>]*>?/g, '') + "</h1>";
+					$("#bookInfo").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['authorInfo'] + "</div>";
+					$("#authorInfo").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['titleInfo'].replace(/<[^>]*>?/g, '') + "</div>";  // html 삭제 코드 
+					$("#titleInfo").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['pubInfo'] + "</div>";
+					$("#pubInfo").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['pubYearInfo'] + "</div>";
+					$("#pubYear").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['kdcName'] + "</div>";
+					$("#kdcName").append(html);
+					html = "<div class=\"course-info-3-text\">" + arrCov.result[0]['isbn'] + "</div>";
+					$("#isbnDetail").append(html);
+					html = "<div style=\"font-size: 16px; color: #1f1d1d; font-weight: 900;\"><span style=\"color:#C62419;\">" + arrCov.result[0]['kdcName'] + "</span> 이런 스터디도 찾아보세요!</div>";
+					$("#studyList").append(html);
+
+					isbn = arrCov.result[0]['isbn'];
+					author = arrCov.result[0]['authorInfo'];
+					coverUrl = arrCov.result[0]['imageUrl'].includes("https://cover.nl.go.kr") ? arrCov.result[0]['imageUrl'] : (arrCov.result[0]['imageUrl'] == '' ? "https://i.ibb.co/2ZFcnSp/IMG-8999.png" : "https://cover.nl.go.kr/" + arrCov.result[0]['imageUrl']);
+
+				},
+				error: function (error) {
+					alert("통신 실패");
+				}
+			}),
+
+
+				// 스터디 상세 정보 조회 (동일한 카테고리 도서를 선정한 스터디 목록 조회)
+				$.ajax({
+					url: "https://가치읽기.site/v1/study?sort=views",
+					type: "GET",
+					dataType: "json",
+					data: { "kdcName": kdcName },
+					success: function (response) {
+						var arrCov = $.extend(true, [], response); //json->배열로 변환
+						for (var i = 0; i < arrCov["totalCount"]; i++) {
+							html = "<div class=\"hcard\">"
+								+ "<div style=\"display: flex; flex-direction: column; justify-content: space-between;      width: 180px; padding-right: 20px; padding-top: 10px;\">"
+								+ "<div onclick=\"location.href='" + "https://가치읽기.site/studydetail?" + "studyRegNo=" + arrCov["result"][i]["studyRegNo"] + "&kdcName=" + arrCov["result"][i]["isbnList"][0]["kdcName"] + "&studyNm=" + arrCov["result"][i]["studyNm"] + "';\" style=\"position: relative; width: 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;\">"
+								+ "<img style=\"width: 180px; height: 180px; object-fit: contain; margin-bottom:10px;background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src=" + (arrCov["result"][i]["isbnList"][0]?.["coverUrl"].includes("https://cover.nl.go.kr") ? arrCov["result"][i]["isbnList"][0]?.["coverUrl"] : (arrCov["result"][i]["isbnList"][0]?.["coverUrl"]) == '' ? "https://nl.go.kr/resource/search/img/search/noimage/noimage_NL1.gif" : "https://cover.nl.go.kr/" + arrCov["result"][i]["isbnList"][0]?.["coverUrl"]) + ">"
+								+ "</div>"
+								+ "<div class=\"card-description-wrapper scrap\">"
+								+ "<div class=\"card-description-1\">"
+								+ "<div>"
+								+ "<img src=\"https://cdn-icons-png.flaticon.com/512/5988/5988242.png\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+								+ "</div>"
+								+ "<div class=\"text-block-15\">" + arrCov["result"][i]["studyNm"] + "</div>"
+								+ "</div>"
+								+ "<div class=\"card-description-title body-16px\">"
+								+ "<div class=\"div-block-73\">"
+								+ "<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">" + arrCov["result"][i]["isbnList"][0]?.["author"] + "</div>"
+								+ "<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">" + arrCov["result"][i]["isbnList"][0]?.["bookTitle"] + "</div>"
+								+ "</div>"
+								+ "<div class=\"card-description-detail\">"
+								+ "<div class=\"card-description-2\">"
+								+ "<div class=\"card-description-wrapper-2-top body-14px\">"
+								+ "<div class=\"text-color-gray70\">" + arrCov["result"][i]["isbnList"][0]?.["kdcName"] + "</div>"
+								+ "</div>"
+								+ "<div class=\"div-block-106\">"
+								+ "</div>"
+								+ "<div class=\"card-description-wrapper-2-bottom\">"
+								+ "<div class=\"text-color-gray70-2 body-14px\">" + arrCov["result"][i]["views"] + "</div>"
+								+ "<div>"
+								+ "<img src=\"https://i.etsystatic.com/36262552/r/il/8404e0/4377696057/il_794xN.4377696057_1atk.jpg\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>"
+								+ "</div>";
+							$("#sameKdcNameStudy").append(html);
+						}
+					},
+					error: function (error) {
+						alert("통신 실패");
+					},
+				});
+		}
+		function createStudy() {
+			if (isbn != '')
+				location.href = 'https://가치읽기.site/StudyCreatePage?isbn=' + isbn + '&kdcName=' + kdcName + '&author=' + author + '&bookTitle=' + titleInfo + '&coverUrl=' + coverUrl;
+			else
+				alert("IBSN(국제표준도서번호)가 없는 도서는 스터디를 만들 수 없습니다 :'(");
+		}
+
+	</script>
+
+	<!--화면 영역-->
+	<div
+		style="width: 500px; height: auto; max-width: 100%; min-height: 400px; background-color: #ffffff; flex-direction: column; flex: 0 auto; align-items: center; display: block;">
+		<!--상단 바-->
+		<div style="display: block; box-sizing: border-box;">
+			<div
+				style="z-index: 5; width: 500px; max-width: 100%; background-color: rgba(0, 0, 0, 0); border: 0 #000; flex-direction: column; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 15px; display: flex; background: #ffffff; position: relative;">
+				<div
+					style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; align-items: stretch; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; display: block;">
+					<div
+						style="flex: 1; justify-content: center; align-self: center; align-items: center; display: flex; position: relative;">
+						<a href="./" class="navbar-brand-8 text-center w-nav-brand w--current">
+							<img src="/static/logo.png" alt="Logo" height="30">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--도서 상세 영역-->
+		<section
+			style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 0 0 16px 0; display: block;">
+			<div class="container-9 w-container">
+				<div class="course-info-wrapper">
+					<div id=cover
+						style="position: relative; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+						<!--<img style="width: 100%; height: 40vh; object-fit: contain; margin-bottom:10px;" src="https://image.yes24.com/goods/119120517/XL"/>-->
+					</div>
+					<div class="about-course-wrapper" style="padding-bottom: 10px ;">
+						<div class="course-title-wrapper">
+							<div class="contents-title-6">
+								<div id="bookInfo" class="div-block-62">
+									<!--<h1 class="course-title title-20px course">자청 저</h1>
+									<h1 class="course-title title-20px">역행자 확장판</h1>-->
+								</div>
+							</div>
+							<div class="course-icon">
+								<div class="descript-wrapper-2">
+									<div id=studyCount class="card-description-wrapper-2-bottom">
+										<div>
+											<img src="https://images.vexels.com/media/users/3/242554/isolated/preview/e54e4fbc0c41d4fd82151174872f7f21-red-book-color-stroke.png"
+												height="14" alt="" class="image-33">
+										</div>
+										<!--<div class="text-color-gray70-2 body-14px">현재 3개의 스터디가 진행 중입니다.</div>-->
+									</div>
+								</div>
+								<div class="tag-wrapper-2">
+									<div class="detail_course_descrription">
+										<div>
+											<img src="https://i.pinimg.com/originals/98/4d/22/984d22fce5cae2c01473f4abe8063fd1.png"
+												alt="" class="image-19" />
+										</div>
+										<div class="div-block-65">
+											<div class="div-block-99">
+												<div class="course-detali text-block-29 text-color-gray80">
+													Lv.
+												</div>
+												<div>
+													<div id="course_level"
+														class="course-detali text-block-30 text-color-gray80">
+														2
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id=category class="detail_course_descrription">
+										<div class="div-block-66">
+											<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1_qapqmwgCElJc-3tY_iqFwBEApaAokYV9w&usqp=CAU"
+												alt="" class="image-19" />
+										</div>
+										<!--<div class="course-detali text-block-30 text-color-gray80"> 자기계발 </div>-->
+									</div>
+									<div class="detail_course_descrription">
+										<div class="div-block">
+											<img src="https://img.freepik.com/premium-vector/black-isbn-sign-with-barcode-concept-scanning-identifying-brochure-key-international-publishing-commerce-isolated-white-background-flat-style-trend-modern-logo-design-vector-illustration_117142-183.jpg"
+												alt="" class="image-19" />
+										</div>
+										<div id="isbnNo" class="div-block">
+											<div class="course-detali text-block-30 text-color-gray80">
+												no.
+											</div>
+											<!--<div class="course-detali text-block-30 text-color-gray80">111234125</div>-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="div-block-102">
+							<div class="course-info-list-wrapper">
+								<div class="course-info">
+									<div id="authorInfo" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											지은이
+										</h4>
+										<!--<div class="course-info-3-text">자청</div>-->
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div id="titleInfo" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											책 제목
+										</h4>
+										<div class="div-block-110"></div>
+										<div class="div-block-111">
+											<!--<div class="course-info-3-text"> 역행자 확장판 </div>-->
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div id="pubInfo" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											출판사
+										</h4>
+										<div>
+											<!--<div class="course-info-3-text">읽기가치 출판</div>-->
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div id="pubYear" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											발행일
+										</h4>
+										<div>
+											<!--<div class="course-info-3-text">2021년 12월 11일</div>-->
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div id="kdcName" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											분류
+										</h4>
+										<div>
+											<!--<div class="course-info-3-text">자기계발</div>-->
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div id="isbnDetail" class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											ISBN
+										</h4>
+										<div>
+											<!--<div class="course-info-3-text">1134125235</div>-->
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--지금 진행 중인 스터디 영역-->
+		<section
+			style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+			<div
+				style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<div class="about-scrap-wrapper">
+					<div id="studyList" style="font-size: 14px; font-weight: 500; color: rgba(31, 29, 29, 0.4);">STUDY
+						LIST NOW</div>
+					<!--<div style="font-size: 16px; color: #1f1d1d; font-weight: 900;"><span style="color:#C62419;">사회과학</span> 이런 스터디도 찾아보세요!</div>-->
+					<div id="sameKdcNameStudy" class="horizon_table">
+						<!--카드-->
+
+						<!--카드 끝-->
+					</div>
+				</div>
+				<a class="course-detail-banner-wrapper no-line grey-80 w-inline-block" style="margin-top: 30px;">
+					<div class="left-text-block">
+						<div class="text-block-69">
+							새로운 스터디를 추가하고 싶다면?
+						</div>
+					</div>
+					<div onclick="createStudy(); " class="right-button-block">
+						<div class="text-block-70">스터디 만들기</div>
+						<img src="https://assets.website-files.com/648051796314396f630e5ead/64840d7f35c44b22441c7244_chevron-right.svg"
+							width="16" height="16" alt="" class="image-49" />
+					</div>
+				</a>
+				<a href="./TestPage" class="course-detail-banner-wrapper no-line w-inline-block">
+					<div class="left-text-block">
+						<div class="text-block-69">지금 이 스터디, 내게 맞는 걸까?</div>
+					</div>
+					<div class="right-button-block">
+						<div class="text-block-70">가치읽기 테스트하기</div>
+						<img src="https://assets.website-files.com/648051796314396f630e5ead/64840d7f35c44b22441c7244_chevron-right.svg"
+							width="16" height="16" alt="" class="image-49" />
+					</div>
+				</a>
+
+			</div>
+		</section>
+		<!--지금 진행 중인 스터디 영역 끝-->
+		<!--하단 푸터 영역-->
+		<section
+			style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0 64px 0; display: block;">
+			<div
+				style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<div style="height: 60px"></div>
+			</div>
+		</section>
+		<!--하단 푸터 영역-->
+		<!--하단 고정 메뉴 바-->
+		<div class="about-gnb-wrapper">
+			<div class="gnb-wrapper">
+				<div class="gnb-icon-wrapper">
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/home.svg')}}" class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">홈</div>
+						</div>
+					</a>
+					<a href="/SearchPage" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/study.svg')}}" class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">검색</div>
+						</div>
+					</a>
+					<a href="https://season-tourmaline-2f2.notion.site/9d6b117ab3074fa3858baabd726277fa?pvs=4"
+						class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/detail.svg')}}"
+									class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">!</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--하단 고정 메뉴 바 끝-->
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

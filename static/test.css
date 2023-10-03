@@ -1,0 +1,94 @@
+.box {
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .box .view-wrapper {
+    border: 0px none;
+    height: 155px;
+    position: relative;
+    width: 371px;
+  }
+  
+  .box .view {
+    height: 155px;
+    left: 0;
+    overflow: hidden;
+    overflow-x: scroll;
+    position: fixed;
+    top: 0;
+    width: 371px;
+  }
+  
+  .box .element {
+    height: 170px;
+    left: 12px;
+    position: absolute;
+    top: 0;
+    width: 144px;
+  }
+  
+  .box .overlap-group {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 6px 6px 30px #00000026, -6px -6px 30px #00000026;
+    height: 170px;
+    position: relative;
+    width: 140px;
+  }
+  
+  .box .text-wrapper {
+    color: #657c89;
+    font-family: "Poppins-Medium", Helvetica;
+    font-size: 12px;
+    font-weight: 500;
+    left: 13px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 142px;
+    width: 98px;
+  }
+  
+  .box .div {
+    color: #000000;
+    font-family: "Poppins-Medium", Helvetica;
+    font-size: 14px;
+    font-weight: 500;
+    left: 13px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 119px;
+    width: 98px;
+  }
+  
+  .box .rectangle {
+    background-color: #c8161d;
+    border-radius: 15px;
+    height: 100px;
+    left: 10px;
+    position: absolute;
+    top: 9px;
+    width: 120px;
+  }
+  
+  .box .overlap-wrapper {
+    height: 170px;
+    left: 169px;
+    position: absolute;
+    top: 0;
+    width: 144px;
+  }
+  
+  .box .overlap-group-wrapper {
+    height: 170px;
+    left: 326px;
+    position: absolute;
+    top: 0;
+    width: 144px;
+  }
+  

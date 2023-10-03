@@ -5,19 +5,18 @@ from flask import render_template, request
 from flask_cors import CORS                                                                                                                       
 import xmltodict                                                                                                                                  
 import json                                                                                                                                       
-import restApi                                                                                                                             
+import restApi                                                                                                                                    
+                                                                                                                                                  
 app = flask.Flask(__name__)                                                                                                                       
 CORS(app)                                                                                                                                         
+                                                                                                                                                  
 @app.route('/',methods=['GET'])                                                                                                                   
 def mainStart():                                                                                                                                  
     return render_template('MainPage.html')    
                                                                                                               
 @app.route('/TestPage',methods=['GET'])                                                                                                                   
-def testStart():
-    num = restApi.testPage()
-    if num =="":
-        restApi.testCountUpdate()                                                                                                                                  
-    return render_template('TestPage'+num+'.html')  
+def testStart():                                                                                                                                 
+    return render_template('TestPage'+restApi.testPage()+'.html')    
                                                                                                               
 @app.route('/TestPage1',methods=['GET'])                                                                                                                   
 def test2Start():                                                                                                                                  
@@ -41,7 +40,7 @@ def bookSearchPage():
 
 @app.route('/studydetail')
 def studydetail():
-    return render_template('StudyDetailPage.html')     
+    return render_template('StudyDetailPage.html')  
 
 @app.route('/ResultPage',methods=['GET'])
 def resultPage():
@@ -49,11 +48,8 @@ def resultPage():
 
 @app.route('/StudyCreatePage')
 def StudyCreate():
-    return render_template('StudyCreatePage.html')   
+    return render_template('StudyCreatePage.html')
 
-@app.route('/testslide')
-def slidetest():
-    return render_template('testslide.html')    
 
 #사서 추천 도서 조회 API
 @app.route('/v1/saseoRecmd', methods=['GET'])
@@ -102,18 +98,12 @@ def studyInfoPost():
     studyNm = request.form.get('studyNm', '')
     isbn = request.form.get('isbn', '')
     joinLinkUrl = request.form.get('joinLinkUrl', '')
-    content = request.form.get('content', '')
-    return restApi.studyInfoPost(studyNm, isbn, joinLinkUrl, content)
+    return restApi.studyInfoPost(studyNm, isbn, joinLinkUrl)
 
 #스터디 정보 조회 API
 @app.route('/v1/study', methods=['GET'])
 def studyInfoSelect():
-    return restApi.studyInfoSelect()   
-
-#테스터 건수 증가 API
-@app.route('/v1/testCountUpdate', methods=['GET'])
-def testCountUpdate():
-    return restApi.testCountUpdate()    
+    return restApi.studyInfoSelect()        
 
 #스터디 댓글 조회 API
 @app.route('/v1/study/reply', methods=['GET'])

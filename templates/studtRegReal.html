@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>가치읽기 BookDetailPage</title>
+	<link rel="stylesheet" href="{{url_for('static',filename='ValueReadCSS.css')}}"/>
+	<link rel="stylesheet" href="{{url_for('static',filename='modal.css')}}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  </head>
+  <body style="height: 100%; background-color: #f0f2f3; flex-direction: column; align-items: center; font-family: Pretendardvariable, sans-serif; display: flex;">
+	<!--화면 영역-->
+	<div style="width: 500px; height: auto; max-width: 100%; min-height: 400px; background-color: #ffffff; flex-direction: column; flex: 0 auto; align-items: center; display: block;">
+		<!--상단 바-->
+		<div style="display: block; box-sizing: border-box;">
+			<div style="z-index: 5; width: 500px; max-width: 100%; background-color: rgba(0, 0, 0, 0); border: 0 #000; flex-direction: column; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 15px; display: flex; background: #ffffff; position: relative;">
+				<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; align-items: stretch; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; display: block;">
+					<div style="flex: 1; justify-content: center; align-self: center; align-items: center; display: flex; position: relative;">
+						<a href="./MainPage.html" class="navbar-brand-8 text-center w-nav-brand w--current">
+							<img src="https://github.com/gijeogiya/depa/blob/main/imgs/Logo.png?raw=true" alt="Logo" height="30">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--도서 상세 영역-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 0 0 16px 0; display: block;">
+			<div class="container-9 w-container">
+				<div class="course-info-wrapper">
+					<div style="position: relative; width: 100%; height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+						<img style="position: absolute; width: 100%; height: 50vh; object-fit: cover; margin-bottom:10px;" id="img_url" src="https://image.yes24.com/goods/119120517/XL"/>
+						<div class="course-title-wrapper" style="z-index:1; background: linear-gradient(to top, #fff, #fff 37%, transparent); width: 100%; height: 50vh; padding: 20px; display:flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;">
+							<div class="descript-wrapper-2">
+									<div class="card-description-wrapper-2-bottom" >
+										<div class="text-color-gray70-2 body-14px course-info-3-text tag">스터디</div>
+									</div>
+								</div>
+							<div class="contents-title-6">
+								<div id = "showstudynm"></div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="about-course-wrapper" style="padding-top: 0px; padding-bottom: 10px;">
+						<div class="course-title-wrapper">
+							<div class="course-icon">
+								<div class="tag-wrapper-2">
+									<div class="detail_course_descrription">
+										<div>
+											<img
+												src="https://i.pinimg.com/originals/98/4d/22/984d22fce5cae2c01473f4abe8063fd1.png"
+												alt=""
+												class="image-19"
+											/>
+										</div>
+										<div class="div-block-65">
+											<div class="div-block-99">
+												<div
+													class="course-detali text-block-29 text-color-gray80"
+												>
+													Lv.
+												</div>
+												<div>
+													<div
+														id="course_level"
+														class="course-detali text-block-30 text-color-gray80"
+													>
+														2
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="detail_course_descrription">
+										<div class="div-block-66">
+											<img
+												src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1_qapqmwgCElJc-3tY_iqFwBEApaAokYV9w&usqp=CAU"
+												alt=""
+												class="image-19"
+											/>
+										</div>
+										<div
+											class="course-detali text-block-30 text-color-gray80"
+											id = "kdcName"
+										>
+											자기계발
+										</div>
+									</div>
+									<div class="detail_course_descrription">
+										<div class="div-block">
+											<img
+												src="https://i.etsystatic.com/36262552/r/il/8404e0/4377696057/il_794xN.4377696057_1atk.jpg"
+												alt=""
+												class="image-19"
+											/>
+										</div>
+										<div class="div-block">
+											<div
+												class="course-detali text-block-30 text-color-gray80"
+											>
+												21
+											</div>
+											<div
+												id = "likes"
+												class="course-detali text-block-30 text-color-gray80"
+											>
+												&nbsp;views
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="div-block-102">
+							<div class="course-info-list-wrapper">
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											스터디명
+										</h4>
+										<div id="studynm2" class="course-info-3-text">직장인들 모여라!</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											개설일
+										</h4>
+										<div class="div-block-110"></div>
+										<div class="div-block-111">
+											<div class="course-info-3-text" id = "fstCrtDtti">
+												2023년 7월 10일
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											책 제목
+										</h4>
+										<div>
+											<div id = "bookTitle2" class="course-info-3-text">역행자 확장판</div>
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											지은이
+										</h4>
+										<div>
+											<div id="author2" class="course-info-3-text">자청</div>
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											분류
+										</h4>
+										<div>
+											<div id="kdcName2" class="course-info-3-text">자기계발</div>
+										</div>
+									</div>
+								</div>
+								<div class="div-block-110 h"></div>
+								<div class="course-info">
+									<div class="course-info3-title-wrapper">
+										<h4 class="course-detali text-color-gray70">
+											오픈채팅방
+										</h4>
+										<a style="text-decoration: none;">
+											<div class="right-button-block" style="background-color:#C62419;">
+												<div onclick= 'goUrl()' class="text-block-70" style="color:#FFFFFF;">바로가기 >&nbsp;&nbsp;</div>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>			
+		</section>
+		<!--스터디 댓글 영역-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+			<div class="about-review-wrapper">
+				<div class="review-wrapper">
+					<h3 class="title-20px">가치 나누기💕</h3>
+					<div class="w-dyn-list">						
+						<div role="list" class="w-dyn-items">
+							<div id="replylist"> </div>
+							<!--댓글-->
+							
+							<div class="div-block-110 h"></div>
+							<!--댓글 끝-->										
+						</div>
+					</div>
+				</div>
+				<div class="editor-form-wrapper review-editor-form" style="margin-top:40px">
+					<div class="form-block-3 w-form">
+						<form
+							id="wf-form-Comment"
+							name="wf-form-Comment"
+							data-name="Comment"
+							method="get"
+							class="form-2"
+							data-wf-page-id="64842c291fe228802d403d65"
+							data-wf-element-id="071c6a47-4159-eea7-6d59-382ef81d2ffc"
+							aria-label="Comment"
+						>
+							<input
+								type="text"
+								class="text-input w-input"
+								maxlength="256"
+								name="field"
+								data-name="코멘트"
+								placeholder="이 스터디에 대한 의견을 적어주세요."
+								data-ms-content="members"
+								id="DostudyReply"     
+								required=""
+							/><input								
+								value="의견 등록하기"
+								data-wait="소중한 리뷰 감사합니다."
+								id="SendstudyReply"
+								data-ms-content="members"
+								class="button w-button"
+								onclick= "studyReplyPost()"
+							/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--스터디 댓글 영역 끝-->
+		<!--지금 진행 중인 스터디 영역-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+			<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<div class="about-scrap-wrapper">
+					<div id="studyList" style="font-size: 14px; font-weight: 500; color: rgba(31, 29, 29, 0.4);">STUDY LIST NOW</div>
+					<!--<div style="font-size: 16px; color: #1f1d1d; font-weight: 900;"><span style="color:#C62419;">사회과학</span> 이런 스터디도 찾아보세요!</div>-->
+					<div id="sameKdcNameStudy" class="horizon_table">
+						<!--카드-->
+						
+						<!--카드 끝-->
+					</div>
+				</div>
+				<a
+					href="#"
+					class="course-detail-banner-wrapper no-line grey-80 w-inline-block"
+					style="margin-top: 30px;"
+					><div class="left-text-block">
+						<div class="text-block-69">
+							새로운 스터디를 추가하고 싶다면?
+						</div>
+					</div>
+					<div class="right-button-block">
+						<div class="text-block-70">스터디 만들기</div>
+						<img
+							src="https://assets.website-files.com/648051796314396f630e5ead/64840d7f35c44b22441c7244_chevron-right.svg"
+							width="16"
+							height="16"
+							alt=""
+							class="image-49"
+						/></div>
+				</a>
+				<a
+					href="./TestPage"
+					class="course-detail-banner-wrapper no-line w-inline-block"
+					><div class="left-text-block">
+						<div class="text-block-69">지금 이 스터디, 내게 맞는 걸까?</div>
+					</div>
+					<div class="right-button-block">
+						<div class="text-block-70">가치읽기 테스트하기</div>
+						<img
+							src="https://assets.website-files.com/648051796314396f630e5ead/64840d7f35c44b22441c7244_chevron-right.svg"
+							width="16"
+							height="16"
+							alt=""
+							class="image-49"
+						/></div>
+				</a>
+				
+			</div>
+		</section>
+		<!--지금 진행 중인 스터디 영역 끝-->
+		<!--하단 푸터 영역-->
+		<section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0 64px 0; display: block;">
+			<div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+				<div style="height: 60px"></div>
+			</div>
+		</section>
+		<!--하단 푸터 영역-->
+		<!--하단 고정 메뉴 바-->
+				<div class="about-gnb-wrapper">
+			<div class="gnb-wrapper">
+				<div class="gnb-icon-wrapper">
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/home.svg')}}"  class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">홈</div>
+						</div>
+					</a>
+					<a href="/SearchPage" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="{{url_for('static',filename='/nav/study.svg')}}"class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">검색</div>
+						</div>
+					</a>
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="{{url_for('static',filename='/nav/detail.svg')}}" class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">!</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--하단 고정 메뉴 바 끝-->
+	</div>
+
+	<div id="modal" class="modal">
+		<div class="modal-content">
+		  <span onclick="closeModal()" class="close">&times;</span>
+		  <h2>비밀번호를 입력해 주세요 🔐</h2>
+		  <input type="password" id="password-input">
+		  <button id="submit-btn" onclick="submitPassword()">확인</button>
+		</div>
+	</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		window.onload = function () {
+        
+        // URL 매개변수에서 데이터 가져오기
+		const urlParams = new URLSearchParams(window.location.search);
+
+		const studyRegNo = decodeURI(urlParams.get('studyRegNo'));
+		const studyNm = decodeURI(urlParams.get('studyNm'));
+
+        
+		const studyRegNo_encoded = encodeURI(urlParams.get('studyRegNo'));
+
+		const url = "https://가치읽기.site/v1/study?studyRegNo=" + studyRegNo_encoded; //스터디 정보 조회
+		const url_studyReply = "https://가치읽기.site/v1/study/reply?studyRegNo=" + studyRegNo_encoded; // 스터디 댓글 조회
+		
+		
+
+		//스터디정보 조회하기
+		$.ajax({
+		url: url,
+		type: "GET",
+		dataType: "json",
+		
+		success: function (response) {
+		
+			
+			var jsonData = JSON.stringify(response);
+			
+			// 입력값 세팅
+			var param = {};
+
+			param.studyRegNo = JSON.stringify(response.result[0]["studyRegNo"]);
+			param.studyNm = JSON.stringify(response.result[0]["studyNm"]).replace(/"|"/g,'');
+			param.joinLinkUrl = JSON.stringify(response.result[0]["joinLinkUrl"]).replace(/"|"/g,'');
+			param.likes = JSON.stringify(response.result[0]["likes"]);
+			param.views = JSON.stringify(response.result[0]["views"]);
+			param.uYn = JSON.stringify(response.result[0]["uYn"]);
+			param.fstCrtDtti = JSON.stringify(response.result[0]["fstCrtDtti"]).replace(/"|"/g,'');
+			param.ltChDtti = JSON.stringify(response.result[0]["ltChDtti"]).replace(/"|"/g,'');
+
+			param.isbn = JSON.stringify(response.result[0]["isbnList"][0]["isbn"]);
+			param.bookTitle = JSON.stringify(response.result[0]["isbnList"][0]["bookTitle"]).replace(/"|"/g,'');
+			param.kdcName = JSON.stringify(response.result[0]["isbnList"][0]["kdcName"]).replace(/"|"/g,'');
+			param.author = JSON.stringify(response.result[0]["isbnList"][0]["author"]).replace(/"|"/g,'');
+			param.coverUrl = JSON.stringify(response.result[0]["isbnList"][0]["coverUrl"]).replace(/"|"/g,'');
+
+			for (var key in param) {
+				if (param.hasOwnProperty(key)) {
+					var value = param[key];
+					console.log(key + ": " + value);
+					localStorage.setItem(key, value);
+			}
+			}
+		
+
+			
+			$("#img_url").attr("src",param.coverUrl.includes("https://cover.nl.go.kr")?param.coverUrl:"https://cover.nl.go.kr/"+param.coverUrl);
+			$("#studyNm1").html(param.studyNm); //.html로 div에 값 넣을 수 있다. 			
+			$("#kdcName").html(param.kdcName);
+			$("#likes").html(param.likes);  
+			$("#studynm2").html(param.studyNm);
+			$("#fstCrtDtti").html(formatDate(param.fstCrtDtti));
+			$("#bookTitle2").html(param.bookTitle);
+			$("#author2").html(param.author);
+			$("#kdcName2").html(param.kdcName);
+		
+			
+
+			html = "<div style=\"font-size: 16px; color: #1f1d1d; font-weight: 900;\"><span style=\"color:#C62419;\">"+param.kdcName+"</span> 이런 스터디도 찾아보세요!</div>";
+						$("#studyList").append(html);
+						
+			html1 =  "<div class=\"div-block-62\">"
+							+ "<img src=\"https://cdn-icons-png.flaticon.com/512/5988/5988242.png\" width=\"30\" height=\"\" alt=\"\">"
+								+ "<h1 class=\"course-title title-20px\" style=\"color:#C62419;\">"
+									+ param.studyNm +
+										"</h1>"
+											+"</div>"
+												+"</div>";
+						$("#showstudynm").append(html1);							
+
+		},
+		error: function (error) {
+		alert("통신 실패");
+		},
+	});
+
+		//////////////////////////////////////////////////////////	
+			// 스터디 상세 정보 조회 (동일한 카테고리 도서를 선정한 스터디 목록 조회)
+			$.ajax({
+					url: "https://가치읽기.site/v1/study?sort=views",
+					type: "GET",
+					dataType: "json",
+					data: {"kdcName":localStorage.getItem("kdcName")},
+					success: function (response) {
+							var arrCov = $.extend(true, [], response); //json->배열로 변환
+							for(var i=0; i<arrCov["totalCount"]; i++){
+									html = "<div class=\"hcard\">"
+											+"<div style=\"display: flex; flex-direction: column; justify-content: space-between;      width: 180px; padding-right: 20px; padding-top: 10px;\">"
+												+"<div onclick=\"location.href='"+"https://xn--o39an5bf94btig.site/studydetail?"+"studyRegNo="+arrCov["result"][i]["studyRegNo"]+"&studyNm="+arrCov["result"][i]["studyNm"]+"';\" style=\"position: relative; width: 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;\">"
+													+"<img style=\"width: 180px; height: 180px; object-fit: contain; margin-bottom:10px;background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src="+(arrCov["result"][i]["isbnList"][0]?.["coverUrl"].includes("https://cover.nl.go.kr")?arrCov["result"][i]["isbnList"][0]?.["coverUrl"]:(arrCov["result"][i]["isbnList"][0]?.["coverUrl"])==''? "https://nl.go.kr/resource/search/img/search/noimage/noimage_NL1.gif":"https://cover.nl.go.kr/"+arrCov["result"][i]["isbnList"][0]?.["coverUrl"])+">"																	
+															+"</div>"
+															+"<div class=\"card-description-wrapper scrap\">"
+																	+"<div class=\"card-description-1\">"
+																			+"<div>"
+																					+"<img src=\"https://cdn-icons-png.flaticon.com/512/5988/5988242.png\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+																			+"</div>"
+																					+"<div class=\"text-block-15\">"+arrCov["result"][i]["studyNm"]+"</div>"
+																	+"</div>"
+																	+"<div class=\"card-description-title body-16px\">"
+																			+"<div class=\"div-block-73\">"
+																					+"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">"+arrCov["result"][i]["isbnList"][0]?.["author"]+"</div>"
+																					+"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">"+arrCov["result"][i]["isbnList"][0]?.["bookTitle"]+"</div>"
+																			+"</div>"
+																			+"<div class=\"card-description-detail\">"
+																					+"<div class=\"card-description-2\">"
+																							+"<div class=\"card-description-wrapper-2-top body-14px\">"
+																									+"<div class=\"text-color-gray70\">"+arrCov["result"][i]["isbnList"][0]?.["kdcName"]+"</div>"
+																							+"</div>"
+																							+"<div class=\"div-block-106\">"
+																							+"</div>"
+																							+"<div class=\"card-description-wrapper-2-bottom\">"
+																									+"<div class=\"text-color-gray70-2 body-14px\">"+arrCov["result"][i]["views"]+"</div>"
+																									+"<div>"
+																											+"<img src=\"https://i.etsystatic.com/36262552/r/il/8404e0/4377696057/il_794xN.4377696057_1atk.jpg\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+																									+"</div>"
+																							+"</div>"
+																					+"</div>"
+																			+"</div>"
+																	+"</div>"
+															+"</div>"
+													+"</div>"
+												+"</div>"        
+											+"</div>";
+									$("#sameKdcNameStudy").append(html); 
+							}
+					},
+					error: function (error) {
+							alert("통신 실패");
+					},
+					});
+
+
+
+		///////////////////////////////////////////////////////////	
+
+
+		//스터디 댓글조회하기
+		
+			$.ajax({
+				url: url_studyReply,
+				type: "GET",
+				dataType: "json",
+				success: function (response2) {
+				console.log(response2);
+				
+
+				// 입력값 세팅
+				var param_studyReply = {};
+
+				param_studyReply.replyRegNo = JSON.stringify(response2.result[0]["replyRegNo"]);
+				param_studyReply.studyRegNo = JSON.stringify(response2.result[0]["studyRegNo"]);
+				param_studyReply.isbn = JSON.stringify(response2.result[0]["isbn"]);
+				param_studyReply.crtUsid = JSON.stringify(response2.result[0]["crtUsid"]).replace(/"|"/g,'');
+				param_studyReply.content = JSON.stringify(response2.result[0]["content"]).replace(/"|"/g,'');
+				param_studyReply.fstCrtDtti = JSON.stringify(response2.result[0]["fstCrtDtti"]).replace(/"|"/g,'');
+				param_studyReply.ltChDtti = JSON.stringify(response2.result[0]["ltChDtti"]).replace(/"|"/g,'');
+
+				for (var key in param_studyReply) {
+				if (param_studyReply.hasOwnProperty(key)) {
+					var value = param_studyReply[key];
+					console.log(key + ": " + value);
+			}
+			}
+			///////////////////////////////
+			var arrCov = $.extend(true, [], response2); //json->배열로 변환
+			for(var i=0; i<arrCov["totalCount"]; i++){
+				
+				param_studyReply.replyRegNo = JSON.stringify(response2.result[i]["replyRegNo"]);
+				param_studyReply.studyRegNo = JSON.stringify(response2.result[i]["studyRegNo"]);
+				param_studyReply.isbn = JSON.stringify(response2.result[i]["isbn"]);
+				param_studyReply.crtUsid = JSON.stringify(response2.result[i]["crtUsid"]).replace(/"|"/g,'');
+				param_studyReply.content = JSON.stringify(response2.result[i]["content"]).replace(/"|"/g,'');
+				param_studyReply.fstCrtDtti = JSON.stringify(response2.result[i]["fstCrtDtti"]).replace(/"|"/g,'');
+				param_studyReply.ltChDtti = JSON.stringify(response2.result[i]["ltChDtti"]).replace(/"|"/g,'');
+
+				html = "<div role=\"istitem\" class=\"w-dyn-item\">"
+					+ "<div class=\"review-list\">"
+						+ "<div class=\"review-user\">"
+							+ "<div class=\"div-block-4\">"
+								+"<div class=\"div-block-116\">"
+									+ "<img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjRJjlAM3MNomnxOVK7gUHCO6JlgMlc6dX5A&usqp=CAU\" loading=\"lazy\" width=\"50\" height=\"50\" alt=\"\" class=\"image-8\"/>"
+					+ "</div>"
+					+ "<div class=\"div-block-115\">"
+						+ "<div class=\"div-block-114\">"
+							+ "<div id=\"crtUsid\" class=\"text-block-53\">" + param_studyReply.crtUsid + "</div>"
+							+ "</div>"
+							+ "</div>"
+							+ "<div class=\"text-block-55 w-dyn-bind-empty\"></div>"				
+							+"</div>"
+							+"<div class=\"div-block-6\">"
+								+ "<div class=\"text-color-gray70\">" + param_studyReply.fstCrtDtti + "</div>"
+								+"</div>"
+								+"</div>"
+							+ "<div class=\"review-contents\">"
+								+"<div id=\"review-block-text\" class=\"text-block-39 review-block-text\" style=\"word-break: break-all\">" + param_studyReply.content + "</div>"
+									+"</div>"
+									+"</div>"
+									+"</div>"
+
+					$("#replylist").append(html); 				
+			}
+			///////////////////////////////
+				},
+				error: function (error) {
+				alert("통신 실패");
+				},
+			});
+		}
+	
+	// 날짜 형식 만들기
+	function formatDate(dateString) {
+			const date = new Date(dateString);
+			const year = date.getFullYear();
+			const month = String(date.getMonth() + 1).padStart(2, '0');
+			const day = String(date.getDate()).padStart(2, '0');
+			
+			return year + "년 " + month + "월 " + day + "일";
+	}
+
+	// 스터디 댓글 등록하기
+	function studyReplyPost() {		
+			openModal();
+			
+	}
+
+	function studyReplyPostCallback(){
+	    const urlParams = new URLSearchParams(window.location.search);
+
+		const studyRegNum = decodeURI(urlParams.get('studyRegNo'));
+		const studyNm = decodeURI(urlParams.get('studyNm'));
+
+        
+		const studyRegNo_encoded = encodeURI(urlParams.get('studyRegNo'));
+
+		var jsonData = {
+			studyRegNo: studyRegNum,
+			crtUsid: generateRandomName(),
+			content: document.getElementById(   "DostudyReply").value,
+			password:localStorage.getItem('password')
+		};
+
+
+			$.ajax({
+				url: "https://가치읽기.site/v1/study/reply",
+				type: "POST",
+				data: jsonData,
+				dataType:'JSON',
+				success: function (response) {				
+
+				var jsonData = JSON.stringify(response);
+				location.reload();
+
+				},
+				error: function (error) {
+				
+				console.log(error);
+				alert("통신 실패");
+				//location.reload();
+				},
+  });
+
+  			
+}
+	// 임의의 사용자 이름 만들기
+	function generateRandomName() {
+		const firstNameList = ['김', '이', '박', '최', '정', '강', '조', '윤', '장', '임', '한', '오', '서', '신', '권', '황', '안', '송', '류', '홍','민', '영', '준', '성', '진', '희', '현', '지', '민', '서', '우', '유', '중', '철', '상', '동', '형', '원', '주', '은'];
+		const lastNameList = ['길동', '영희', '철수', '수지', '민수', '현주', '지연', '재영', '유진', '승현', '지민', '은지', '주원', '민지', '상우', '서연', '진우', '지훈', '희준', '미선'];
+
+		const randomFirstName = firstNameList[Math.floor(Math.random() * firstNameList.length)];
+		const randomLastName = lastNameList[Math.floor(Math.random() * lastNameList.length)];
+
+		return randomFirstName + randomLastName;
+	}
+
+
+	//모달창
+	var modal = document.getElementById("modal");
+    var closeButton = document.getElementsByClassName("close")[0];
+    var submitButton = document.getElementById("submit-btn");
+    var passwordInput = document.getElementById("password-input");
+
+    function openModal() {
+      modal.style.display = "block";
+	  $('#password-input').focus();
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    function submitPassword() {
+      var password = passwordInput.value;
+	  localStorage.setItem("password", password);
+      console.log("비밀번호: " + password);
+      closeModal();
+	  studyReplyPostCallback();
+    }
+
+	function goUrl() {
+        // 이동할 URL 정의
+        var url = localStorage.getItem('joinLinkUrl');
+
+        // URL로 이동
+        window.location.href = url;
+    }
+
+	</script>
+
+</body>
+</html>

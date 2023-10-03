@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ url_for('static', filename='logo_s.png') }}">  
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='logo_s.ico') }}">  
+    <meta
+  name="description"
+  content="당신의 숨겨진 독서 취향을 찾아 개인화된 추천 서비스를 제공합니다."
+/>
+<meta name="keywords" content="가치읽기, 독서스터디, 독서, 스터디, 같이읽기" />
+<meta name="author" content="ValueReading Team" />
+    <title>가치읽기:독서스터디 커뮤니티</title>
+        <link rel="stylesheet" href="{{url_for('static',filename='ValueReadCSS.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+</head>
+  <body style="height: 100%; background-color: #f0f2f3; flex-direction: column; align-items: center; font-family: Pretendardvariable, sans-serif; display: flex;">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script>
+        window.onload = function(){
+                //1. 스터디정보조회 API 호출
+                $.ajax({
+                        url: "http://가치읽기.site/v1/study?sort=views",
+                        type: "GET",
+                        dataType: "json",
+                        data: {"studyNm":""},
+                        success: function (response) {
+                                var arrCov = $.extend(true, [], response); //json->배열로 변환
+                                for(var i=0; i<arrCov["totalCount"]; i++){
+                                        html = "<div class=\"hcard\">"
+                                                +"<div style=\"display: flex; flex-direction: column; justify-content: space-between;      width: 180px; padding-right: 20px; padding-top: 10px;\">"
+                                                        +"<div onclick=\"location.href='"+"http://가치읽기.site/studydetail?"+"studyRegNo="+arrCov["result"][i]["studyRegNo"]+"&studyNm="+arrCov["result"][i]["studyNm"]+"';\" style=\"position: relative; width: 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;\">"
+                                                                        +"<img style=\"width: 180px; height: 180px; object-fit: contain; margin-bottom:10px;background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src="+(arrCov["result"][i]["isbnList"][0]?.["coverUrl"].includes("https://cover.nl.go.kr")?arrCov["result"][i]["isbnList"][0]?.["coverUrl"]:(arrCov["result"][i]["isbnList"][0]?.["coverUrl"])==''? "https://nl.go.kr/resource/search/img/search/noimage/noimage_NL1.gif":"https://cover.nl.go.kr/"+arrCov["result"][i]["isbnList"][0]?.["coverUrl"])+">"
+                                                                +"</div>"
+                                                                +"<div class=\"card-description-wrapper scrap\">"
+                                                                        +"<div class=\"card-description-1\">"
+                                                                                +"<div>"
+                                                                                        +"<img src=\"https://cdn-icons-png.flaticon.com/512/5988/5988242.png\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+                                                                                +"</div>"
+                                                                                        +"<div class=\"text-block-15\">"+arrCov["result"][i]["studyNm"]+"</div>"
+                                                                        +"</div>"
+                                                                        +"<div class=\"card-description-title body-16px\">"
+                                                                                +"<div class=\"div-block-73\">"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">"+arrCov["result"][i]["isbnList"][0]?.["author"]+"</div>"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">"+arrCov["result"][i]["isbnList"][0]?.["bookTitle"]+"</div>"
+                                                                                +"</div>"
+                                                                                +"<div class=\"card-description-detail\">"
+                                                                                        +"<div class=\"card-description-2\">"
+                                                                                                +"<div class=\"card-description-wrapper-2-top body-14px\">"
+                                                                                                        +"<div class=\"text-color-gray70\">"+arrCov["result"][i]["isbnList"][0]?.["kdcName"]+"</div>"
+                                                                                                +"</div>"
+                                                                                                +"<div class=\"div-block-106\">"
+                                                                                                +"</div>"
+                                                                                                +"<div class=\"card-description-wrapper-2-bottom\">"
+                                                                                                        +"<div class=\"text-color-gray70-2 body-14px\">"+arrCov["result"][i]["views"]+"</div>"
+                                                                                                        +"<div>"
+                                                                                                                +"<img src=\"https://i.etsystatic.com/36262552/r/il/8404e0/4377696057/il_794xN.4377696057_1atk.jpg\" width=\"27\" height=\"\" alt=\"\" class=\"image-33\">"
+                                                                                                        +"</div>"
+                                                                                                +"</div>"
+                                                                                        +"</div>"
+                                                                                +"</div>"
+                                                                        +"</div>"
+                                                                +"</div>"
+                                                        +"</div>"
+                                                 +"</div>"        
+                                                +"</div>";
+                                        $("#study").append(html); 
+                                }
+                        },
+                        error: function (error) {
+                                alert("통신 실패");
+                        },
+                        });
+                //2. 사서 추천 도서 조회 API 호출
+                $.ajax({
+                        url: "http://가치읽기.site/v1/saseoRecmd",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (response) {
+                                var arrCov = $.extend(true, [], response); //json->배열로 변환
+                                for(var i=0; i<arrCov["totalCount"]; i++){
+                                        html = "<div class=\"hcard\">"
+                                                +"<div style=\"display: flex; flex-direction: column; justify-content: space-between;      width: 180px; padding-right: 20px; padding-top: 10px;\">"
+                                                                +"<div onclick=\"location.href='"+"http://가치읽기.site/bookDetail?"+"isbn="+arrCov["result"][i]["recomIsbn"]+"&kdcName="+arrCov["result"][i]["kdcName"]+"';\" style=\"position: relative; width: 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;\">"
+                                                                        +"<img style=\"width: 180px; height: 180px; object-fit: contain; margin-bottom:10px;background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src="+arrCov["result"][i]["recomFilePath"]+">"
+                                                                +"</div>"
+                                                                +"<div class=\"card-description-wrapper scrap\">"
+                                                                        +"<div class=\"card-description-title body-16px\">"
+                                                                                +"<div class=\"div-block-73\">"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">"+arrCov["result"][i]["recomAuthor"]+"</div>"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">"+arrCov["result"][i]["recomTitle"]+"</div>"
+                                                                                +"</div>"
+                                                                                +"<div class=\"card-description-detail\">"
+                                                                                        +"<div class=\"card-description-2\">"
+                                                                                                +"<div class=\"card-description-wrapper-2-top body-14px\">"
+                                                                                                        +"<div class=\"text-color-gray70\">"+arrCov["result"][i]["kdcName"]+"</div>"
+                                                                                                +"</div>"
+                                                                                        +"</div>"
+                                                                                +"</div>"
+                                                                        +"</div>"
+                                                                +"</div>"
+                                                        +"</div>"
+                                                 +"</div>"        
+                                                +"</div>";
+                                        $("#saseoRecmd").append(html); 
+                                }
+                        },
+                        error: function (error) {
+                                alert("통신 실패");
+                        },
+                        });   
+                //3. 도서 정보 조회 API 호출 (키워드:"롯데", 정렬:최신순)
+                $.ajax({
+                        url: "http://가치읽기.site/v1/book",
+                        type: "GET",
+                        dataType: "json",
+                        data: {"kwd":"롯데", "sort":"ipub_year", "order":"desc"},
+                        success: function (response) {
+                                var arrCov = $.extend(true, [], response); //json->배열로 변환
+                                for(var i=0; i<arrCov["result"].length; i++){
+                                        html = "<div class=\"hcard\">"
+                                                +"<div style=\"display: flex; flex-direction: column; justify-content: space-between;      width: 180px; padding-right: 20px; padding-top: 10px;\">"
+                                                                +"<div onclick=\"location.href='"+"http://가치읽기.site/bookDetail?"+"isbn="+arrCov["result"][i]["isbn"]+"&kdcName="+arrCov["result"][i]["kdcName"]+"';\" style=\"position: relative; width: 180px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;\">"
+                                                                        +"<img style=\"width: 180px; height: 180px; object-fit: contain; margin-bottom:10px;background: url(https://nl.go.kr/resource/templete/nl/img/main/book_bg.png)  center no-repeat;margin: 0 auto;padding: 0 6px 5px 0;box-sizing: border-box;background-size: 100% 100%;width:116px;height:162px;\" src="+(arrCov["result"][i]["imageUrl"].includes("https://cover.nl.go.kr")?arrCov["result"][i]["imageUrl"]:(arrCov["result"][i]["imageUrl"])==''? "https://nl.go.kr/resource/search/img/search/noimage/noimage_NL1.gif":"https://cover.nl.go.kr/"+arrCov["result"][i]["imageUrl"])+">"
+                                                                +"</div>"
+                                                                +"<div class=\"card-description-wrapper scrap\">"
+                                                                        +"<div class=\"card-description-title body-16px\">"
+                                                                                +"<div class=\"div-block-73\">"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-38\">"+arrCov["result"][i]["authorInfo"]+"</div>"
+                                                                                        +"<div style=\"display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:150px\" class=\"text-block-37 text-style-bold\">"+arrCov["result"][i]["titleInfo"]+"</div>"
+                                                                                +"</div>"
+                                                                                +"<div class=\"card-description-detail\">"
+                                                                                        +"<div class=\"card-description-2\">"
+                                                                                                +"<div class=\"card-description-wrapper-2-top body-14px\">"
+                                                                                                        +"<div class=\"text-color-gray70\">"+arrCov["result"][i]["kdcName"]+"</div>"
+                                                                                                +"</div>"
+                                                                                        +"</div>"
+                                                                                +"</div>"
+                                                                        +"</div>"
+                                                                +"</div>"
+                                                        +"</div>"
+                                                 +"</div>"        
+                                                +"</div>";
+                                        $("#newPub").append(html); 
+                                }
+                        },
+                        error: function (error) {
+                                alert("통신 실패");
+                        },
+                        }); 
+                $.ajax({
+                        url: "http://가치읽기.site/v1/study",
+                        type: "GET",
+                        dataType: "json",
+                        data: {"studyRegNo":"1", "adminYn":"Y"},
+                        success: function (response) {
+                                var arrCov = $.extend(true, [], response); //json->배열로 변환
+                                var testCount = arrCov["result"][0]['views'];
+                                $("#testCount").text(testCount);
+
+                        },
+                        error: function (error) {
+                                alert("통신 실패");
+                        },
+                });     
+        }
+        function countTester(){
+                $.ajax({
+                        url: "http://가치읽기.site/v1/testCountUpdate",
+                        type: "GET",
+                        dataType: "json",
+                        success: function (response) {},
+                        error: function (error) {
+                                alert("통신 실패");
+                        },
+                        }); 
+        }
+    </script>    
+    <!--화면 영역-->
+        <div style="width: 500px; height: auto; max-width: 100%; min-height: 400px; background-color: #ffffff; flex-direction: column; flex: 0 auto; align-items: center; display: block;">
+                <!--상단 바-->
+                <div style="display: block; box-sizing: border-box;">
+                        <div style="z-index: 5; width: 500px; max-width: 100%; background-color: rgba(0, 0, 0, 0); border: 0 #000; flex-direction: column; margin-left: auto; margin-right: auto; padding-top: 15px; padding-bottom: 15px; display: flex; background: #ffffff; position: relative;">
+                                <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; align-items: stretch; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                        <div style="flex: 1; justify-content: center; align-self: center; align-items: center; display: flex; position: relative;">
+                                                <a href="./" class="navbar-brand-8 text-center w-nav-brand w--current">
+                                                        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="30">
+                                                </a>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <!--가치읽기 테스트 영역-->
+                <section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding-bottom: 16px; display: block;">
+                        <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                <div class="user-profile-wrapper">
+                                        <div class="user-profile-title">
+
+                                                <img src="{{ url_for('static', filename='main.png') }}" sizes="100vw" alt="" class="image-13">
+                                        </div>
+                                        <div class="user-profile-card-wrapper">
+                                                <div class="user-contents-card_login logout temp-card-template">
+                                                        <div class="number-of-recommend-container">
+                                                                <div class="number-of-recommend-card number-of-recommend">
+                                                                        <div class="text-color-gray70-2 user-caard-text temp-font-style-body bold-600 font-size-18px">지금까지 </div>
+                                                                        <div id="testCount" class="text-color-gray70-2 user-caard-text temp-font-style-body number-of-recommend"></div>
+                                                                        <div class="text-color-gray70-2 user-caard-text temp-font-style-body bold-600 font-size-18px">명이</div>
+                                                                </div>
+                                                                <div class="text-color-gray70-2 user-caard-text temp-font-style-body bold-600 font-size-18px">취향에 맞는 독서 스터디를 추천 받았어요</div>
+                                                        </div>
+                                                        <a  href="/TestPage" id="home_test_start_button" class="button-8 temp-font-style w-button" onclick="return countTester();">
+                                                                <strong class="bold-text-2">가치읽기 테스트 하러가기</strong>
+                                                        </a>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </section>
+                <!--가치읽기 테스트 영역 끝-->
+                <!--지금 진행 중인 스터디 영역-->
+                <section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+                        <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                <div class="about-scrap-wrapper">
+                                        <div style="font-size: 14px; font-weight: 500; color: rgba(31, 29, 29, 0.4);">STUDY IN PROGRESS</div>
+                                        <div style="font-size: 16px; color: #1f1d1d; font-weight: 900;">지금 진행 중인 스터디, 함께해요!😀</div>
+                                        <div class="horizon_table" id="study">
+                                                <!--카드-->
+                                                
+                                                <!--카드 끝-->
+                                        </div>
+
+                                </div>
+                        </div>
+                </section>
+                <!--지금 진행 중인 스터디 영역 끝-->
+                <!--사서 추천 영역-->
+                <section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+                        <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                <div class="about-scrap-wrapper">
+                                        <div style="font-size: 14px; font-weight: 500; color: rgba(31, 29, 29, 0.4);">RECOMMENDATION</div>
+                                        <div style="font-size: 16px; color: #1f1d1d; font-weight: 900;">사서 추천 도서, 강력 추천!❤️</div>
+                                        <div class="horizon_table" id="saseoRecmd">
+                                                <!--카드-->
+                                                
+                                                <!--카드 끝-->
+                                        </div>
+                                </div>
+                        </div>
+                </section>
+                <!--사서 추천 영역 끝-->
+                <!--신규 도서 영역-->
+                <section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0; display: block;">
+                        <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                <div class="about-scrap-wrapper">
+                                        <div style="font-size: 14px; font-weight: 500; color: rgba(31, 29, 29, 0.4);">NEW IN</div>
+                                        <div style="font-size: 16px; color: #1f1d1d; font-weight: 900;">따끈따끈, 신간 도서✨</div>
+                                        <div class="horizon_table" id ="newPub">
+                                                <!--카드-->
+                                                
+                                                <!--카드 끝-->
+                                        </div>
+                                </div>
+                        </div>
+                </section>
+                <!--신간 도서 영역 끝-->
+                <!--하단 푸터 영역-->
+                <section style="width: 500px; max-width: 100%; background-color: #fff; border: 1px #141617; padding: 16px 0 64px 0; display: block;">
+                        <div style="width: 100%; max-width: 1080px; grid-row-gap: 0px; flex-flow: column; align-content: stretch; justify-content: flex-start; margin: 0 auto; padding-left: 24px; padding-right: 24px; display: block;">
+                                <div style="height: 60px"></div>
+                        </div>
+                </section>
+                <!--하단 푸터 영역-->
+                <!--하단 고정 메뉴 바-->
+             		<div class="about-gnb-wrapper">
+			<div class="gnb-wrapper">  
+				<div class="gnb-icon-wrapper">  
+					<a href="/" class="link-block-5 w-inline-block w--current">
+						<div onclick="location.href='http://가치읽기.site/bookDetail';" class="gnb-icon">
+							<div class="image-wrapper-1-1 gnb">
+								<img src="{{url_for('static',filename='/nav/home.svg')}}"  class="wrapper-iner-image-2">
+							</div>
+							<div class="body-14px text-color-gray70">홈</div>
+						</div>
+					</a>
+					<a href="/SearchPage" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="{{url_for('static',filename='/nav/study.svg')}}"class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">검색</div>
+						</div>
+					</a>
+					<a href="https://season-tourmaline-2f2.notion.site/9d6b117ab3074fa3858baabd726277fa?pvs=4" class="link-block-5 w-inline-block w--current">
+						<div class="gnb-icon"><div class="image-wrapper-1-1 gnb">
+							<img src="{{url_for('static',filename='/nav/detail.svg')}}" class="wrapper-iner-image-2">
+						</div>
+						<div class="body-14px text-color-gray70">!</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+                <!--하단 고정 메뉴 바 끝-->
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
+</body>
